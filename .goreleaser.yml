@@ -7,8 +7,10 @@ before:
     # you may remove this if you don't need go generate
     - go generate ./...
 builds:
-  - dir: cmd
-  - env:
+  - 
+    id: test-build
+    dir: ./cmd/vault-plugin-secrets-samplekv
+    env:
       - CGO_ENABLED=0
     goos:
       - linux
