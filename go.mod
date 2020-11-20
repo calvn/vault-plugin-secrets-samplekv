@@ -1,4 +1,4 @@
-module github.com/hashicorp/vault-guides/plugins/vault-plugin-secrets-mock
+module github.com/calvn/vault-plugin-secrets-samplekv
 
 go 1.12
 

@@ -3,8 +3,8 @@ package main
 import (
 	"os"
 
+	mock "github.com/calvn/vault-plugin-secrets-samplekv"
 	"github.com/hashicorp/go-hclog"
-	mock "github.com/hashicorp/vault-guides/plugins/vault-plugin-secrets-mock"
 	"github.com/hashicorp/vault/api"
 	"github.com/hashicorp/vault/sdk/plugin"
 )

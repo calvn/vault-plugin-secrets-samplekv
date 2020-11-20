@@ -12,6 +12,8 @@ import (
 	"github.com/hashicorp/vault/sdk/logical"
 )
 
+var Version = "v0.2.0"
+
 // backend wraps the backend framework and adds a map for storing key value pairs
 type backend struct {
 	*framework.Backend
@@ -49,6 +51,9 @@ func newBackend() (*backend, error) {
 		BackendType: logical.TypeLogical,
 		Paths: framework.PathAppend(
 			b.paths(),
+			[]*framework.Path{
+				pathVersion(b),
+			},
 		),
 	}
 
@@ -58,7 +63,7 @@ func newBackend() (*backend, error) {
 func (b *backend) paths() []*framework.Path {
 	return []*framework.Path{
 		{
-			Pattern: framework.MatchAllRegex("path"),
+			Pattern: "data/" + framework.MatchAllRegex("path"),
 
 			Fields: map[string]*framework.FieldSchema{
 				"path": {
@@ -161,6 +166,27 @@ func (b *backend) handleDelete(ctx context.Context, req *logical.Request, data *
 	delete(b.store, req.ClientToken+"/"+path)
 
 	return nil, nil
+}
+
+func pathVersion(b *backend) *framework.Path {
+	return &framework.Path{
+		Pattern: "version$",
+		Operations: map[logical.Operation]framework.OperationHandler{
+			logical.ReadOperation: &framework.PathOperation{
+				Callback: b.operationVersionRead,
+			},
+		},
+	}
+}
+
+func (b *backend) operationVersionRead(ctx context.Context, req *logical.Request, data *framework.FieldData) (*logical.Response, error) {
+	resp := &logical.Response{
+		Data: map[string]interface{}{
+			"version": Version,
+		},
+	}
+
+	return resp, nil
 }
 
 const mockHelp = `
