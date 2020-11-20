@@ -12,7 +12,7 @@ import (
 	"github.com/hashicorp/vault/sdk/logical"
 )
 
-var Version = "v0.2.1"
+var Version = "v0.3.0"
 
 // backend wraps the backend framework and adds a map for storing key value pairs
 type backend struct {
